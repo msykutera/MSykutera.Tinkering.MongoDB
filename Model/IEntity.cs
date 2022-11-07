@@ -1,7 +1,6 @@
-﻿namespace MSykutera.Tinkering.MongoDB.Model
+﻿namespace MSykutera.Tinkering.MongoDB.Model;
+
+public interface IEntity
 {
-    public interface IEntity
-    {
-        public string Id { get; set; }
-    }
+    public string Id { get; set; }
 }

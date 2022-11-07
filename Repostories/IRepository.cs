@@ -1,9 +1,8 @@
-﻿namespace MSykutera.Tinkering.MongoDB.Repostories
-{
-    public interface IRepository<T>
-    {
-        Task<IEnumerable<T>> GetAsync(CancellationToken token);
+﻿namespace MSykutera.Tinkering.MongoDB.Repostories;
 
-        Task<string> AddAsync(T model, CancellationToken token);
-    }
+public interface IRepository<T>
+{
+    Task<IEnumerable<T>> GetAsync(CancellationToken token);
+
+    Task<string> AddAsync(T model, CancellationToken token);
 }
