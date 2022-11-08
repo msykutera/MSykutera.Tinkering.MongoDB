@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MSykutera.Tinkering.MongoDB.Model;
 
@@ -19,7 +18,7 @@ public class MongoRepository<T> : IRepository<T> where T : class, IEntity, new()
 
     public async Task<IEnumerable<T>> GetAsync(CancellationToken token)
     {
-        return await _collection.Find(new BsonDocument()).ToListAsync(token);
+        return await _collection.Find(Builders<T>.Filter.Empty).ToListAsync(token);
     }
 
     public async Task<string> AddAsync(T model, CancellationToken token)
@@ -27,4 +26,16 @@ public class MongoRepository<T> : IRepository<T> where T : class, IEntity, new()
         await _collection.InsertOneAsync(model, token);
         return model.Id;
     }
-}
+
+    public async Task DeleteAsync(string id, CancellationToken token)
+    {
+        FilterDefinition<T> filter = Builders<T>.Filter.Eq("Id", id);
+        await _collection.DeleteOneAsync(filter, token);
+    }
+
+    public async Task UpdateAsync(T model, CancellationToken token)
+    {
+        FilterDefinition<T> filter = Builders<T>.Filter.Eq("Id", model.Id);
+        await _collection.ReplaceOneAsync(filter, model, cancellationToken: token);
+    }
+} 
